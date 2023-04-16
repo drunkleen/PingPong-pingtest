@@ -134,7 +134,6 @@ class App(ctk.CTk):
             self.progressbar.set(status_bar_progress)
             app.update()
 
-
         self.pingedLabel.configure(text=f"{st.results.ping} ms")
         self.downloadedLabel.configure(text=f"{round(st.download() / 1000 / 1000, 1)} Mbit/s")
         self.uploadedLabel.configure(text=f"{round(st.upload() / 1000 / 1000, 1)} Mbit/s")
