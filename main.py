@@ -7,6 +7,7 @@ from tkinter import ttk
 import customtkinter as ctk
 import threading
 import speedtest
+import json
 
 HOSTLIST = pd.DataFrame({
     'global': ['8.8.8.8', '8.8.4.4', '1.1.1.1', '1.0.0.1'],
@@ -17,6 +18,12 @@ HOSTLIST = pd.DataFrame({
 GLOBAL_LIST = HOSTLIST['global'].tolist()
 INTRANET_LIST = HOSTLIST['intranet'].tolist()
 FILTERED_LIST = HOSTLIST['filtered'].tolist()
+
+with open('strings.json', 'r') as f:
+    strings = json.load(f)
+
+with open('Settings', 'r') as f:
+    current_lang = json.load(f)["lang"]
 
 SELECTED_FONT = ("B Yekan", 25)
 
@@ -37,13 +44,15 @@ class App(ctk.CTk):
         self.creditLabel.place(relx=0.5, rely=0.96, anchor=ctk.N)
         # Label
         self.Label = ctk.CTkLabel(self,
-                                  text="سرور تست پینگ را انتخاب کنید",
+                                  text=strings["select_server"][current_lang],
                                   font=("B Yekan", 24),
                                   anchor=CENTER)
         self.Label.place(relx=0.95, rely=0.08, anchor=ctk.E)
 
         # Radio buttons
-        server_options = [("اینترنت", "Global"), ("داخلی", "Intranet"), ("فیلترینگ", "Filtering")]
+        server_options = [(strings["global"][current_lang], "Global"),
+                          (strings["intranet"][current_lang], "Intranet"),
+                          (strings["filtered"][current_lang], "Filtering")]
         self.ServerSelection = ctk.StringVar(value="Global")
 
         for i, (text, value) in enumerate(server_options):
@@ -56,7 +65,7 @@ class App(ctk.CTk):
             radio_button.place(relx=0.1 + i * 0.3, rely=0.13, anchor=ctk.NW)
 
         # Start button
-        self.button = ctk.CTkButton(master=self, text="شروع تست",
+        self.button = ctk.CTkButton(master=self, text=strings["start_test"][current_lang],
                                     font=("B Yekan", 24), command=self.start_ping_thread,
                                     fg_color=("#ff1a1a", "#cc0000"))
         self.button.place(relx=0.05, rely=0.08, anchor=ctk.W)
@@ -82,17 +91,17 @@ class App(ctk.CTk):
         self.progressbar.set(0.0)
 
         self.pingLabel = ctk.CTkLabel(self,
-                                      text="پینگ",
+                                      text=strings["ping_speed"][current_lang],
                                       font=SELECTED_FONT)
         self.pingLabel.place(relx=0.22, rely=0.86, anchor=ctk.E)
 
         self.downloadLabel = ctk.CTkLabel(self,
-                                          text="دانلود",
+                                          text=strings["download_speed"][current_lang],
                                           font=SELECTED_FONT)
         self.downloadLabel.place(relx=0.5, rely=0.86, anchor='center')
 
         self.uploadLabel = ctk.CTkLabel(self,
-                                        text="آپلود",
+                                        text=strings["upload_speed"][current_lang],
                                         font=SELECTED_FONT)
         self.uploadLabel.place(relx=0.78, rely=0.86, anchor=ctk.W)
 

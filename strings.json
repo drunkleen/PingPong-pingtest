@@ -1,0 +1,34 @@
+{
+  "global": {
+    "en": "Global",
+    "fa": "جهانی"
+  },
+  "intranet": {
+    "en": "Intranet",
+    "fa": "داخلی"
+  },
+  "filtered": {
+    "en": "Filtered",
+    "fa": "فیلتر شده"
+  },
+  "select_server": {
+    "en": "Select a server to test ping",
+    "fa": "سرور تست پینگ را انتخاب کنید"
+  },
+  "start_test": {
+    "en": "Start Test",
+    "fa": "شروع تست"
+  },
+  "ping_speed": {
+    "en": "Ping",
+    "fa": "پینگ"
+  },
+  "download_speed": {
+    "en": "Download",
+    "fa": "دانلود"
+  },
+  "upload_speed": {
+    "en": "Upload",
+    "fa": "آپلود"
+  }
+}
