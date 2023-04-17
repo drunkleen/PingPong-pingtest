@@ -3,6 +3,7 @@ import pandas as pd
 import socket
 import ipaddress
 from tkinter import *
+from tkinter import ttk
 import customtkinter as ctk
 import threading
 import speedtest
@@ -10,7 +11,7 @@ import speedtest
 HOSTLIST = pd.DataFrame({
     'global': ['8.8.8.8', '8.8.4.4', '1.1.1.1', '1.0.0.1'],
     'intranet': ['digikala.com', 'alibaba.ir', 'www.snapptrip.com', 'ito.gov.ir'],
-    'filtered': ['telegram.org', 'youtube.com', 'facebook.com', 'twitter.com']
+    'filtered': ['www.starlink.com', 'youtube.com', 'facebook.com', 'twitter.com']
 })
 
 GLOBAL_LIST = HOSTLIST['global'].tolist()
@@ -26,18 +27,23 @@ class App(ctk.CTk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title('PingPong')
-        self.geometry('500x700')
+        self.geometry('500x620')
+        self.wm_iconbitmap("PingPong.ico")
         self.resizable(width=False, height=False)
 
+        self.creditLabel = ctk.CTkLabel(self,
+                                        text="https://github.com/drunkleen",
+                                        font=("Tahoma", 16))
+        self.creditLabel.place(relx=0.5, rely=0.96, anchor=ctk.N)
         # Label
         self.Label = ctk.CTkLabel(self,
                                   text="سرور تست پینگ را انتخاب کنید",
-                                  font=SELECTED_FONT,
+                                  font=("B Yekan", 24),
                                   anchor=CENTER)
-        self.Label.place(relx=0.9, rely=0.08, anchor=ctk.E)
+        self.Label.place(relx=0.95, rely=0.08, anchor=ctk.E)
 
         # Radio buttons
-        server_options = [("Global", "Global"), ("Intranet", "Intranet"), ("Filtering", "Filtering")]
+        server_options = [("اینترنت", "Global"), ("داخلی", "Intranet"), ("فیلترینگ", "Filtering")]
         self.ServerSelection = ctk.StringVar(value="Global")
 
         for i, (text, value) in enumerate(server_options):
@@ -45,13 +51,20 @@ class App(ctk.CTk):
                                               text=text,
                                               variable=self.ServerSelection,
                                               value=value,
-                                              font=SELECTED_FONT)
-            radio_button.place(relx=0.05 + i * 0.3, rely=0.13, anchor=ctk.NW)
+                                              font=("B Yekan", 21),
+                                              fg_color=("#ff1a1a", "#cc0000"))
+            radio_button.place(relx=0.1 + i * 0.3, rely=0.13, anchor=ctk.NW)
 
         # Start button
         self.button = ctk.CTkButton(master=self, text="شروع تست",
-                                    font=SELECTED_FONT, command=self.start_ping_thread)
-        self.button.place(relx=0.5, rely=0.20, anchor=ctk.N)
+                                    font=("B Yekan", 24), command=self.start_ping_thread,
+                                    fg_color=("#ff1a1a", "#cc0000"))
+        self.button.place(relx=0.05, rely=0.08, anchor=ctk.W)
+
+        self.StatusLabel = ctk.CTkLabel(self,
+                                      text="--",
+                                      font=SELECTED_FONT)
+        self.StatusLabel.place(relx=0.5, rely=0.20, anchor=ctk.N)
 
         # Text box
         self.displayBox = ctk.CTkTextbox(self, width=500,
@@ -63,39 +76,42 @@ class App(ctk.CTk):
 
         self.progressbar = ctk.CTkProgressBar(master=self,
                                               width=500,
-                                              height=20)
+                                              height=20,
+                                              fg_color=("#800000", "#660000"))
         self.progressbar.place(relx=0.5, rely=0.28, anchor=ctk.N)
         self.progressbar.set(0.0)
 
         self.pingLabel = ctk.CTkLabel(self,
                                       text="پینگ",
                                       font=SELECTED_FONT)
-        self.pingLabel.place(relx=0.22, rely=0.83, anchor=ctk.E)
+        self.pingLabel.place(relx=0.22, rely=0.86, anchor=ctk.E)
 
         self.downloadLabel = ctk.CTkLabel(self,
                                           text="دانلود",
                                           font=SELECTED_FONT)
-        self.downloadLabel.place(relx=0.5, rely=0.83, anchor='center')
+        self.downloadLabel.place(relx=0.5, rely=0.86, anchor='center')
 
         self.uploadLabel = ctk.CTkLabel(self,
                                         text="آپلود",
                                         font=SELECTED_FONT)
-        self.uploadLabel.place(relx=0.78, rely=0.83, anchor=ctk.W)
+        self.uploadLabel.place(relx=0.78, rely=0.86, anchor=ctk.W)
 
         self.pingedLabel = ctk.CTkLabel(self,
                                         text="--",
                                         font=("Tahoma", 18))
-        self.pingedLabel.place(relx=0.22, rely=0.93, anchor=ctk.E)
+        self.pingedLabel.place(relx=0.22, rely=0.925, anchor=ctk.E)
 
         self.downloadedLabel = ctk.CTkLabel(self,
                                             text="--",
                                             font=("Tahoma", 18))
-        self.downloadedLabel.place(relx=0.5, rely=0.93, anchor='center')
+        self.downloadedLabel.place(relx=0.5, rely=0.925, anchor='center')
 
         self.uploadedLabel = ctk.CTkLabel(self,
                                           text="--",
                                           font=("Tahoma", 18))
-        self.uploadedLabel.place(relx=0.78, rely=0.93, anchor=ctk.W)
+        self.uploadedLabel.place(relx=0.78, rely=0.925, anchor=ctk.W)
+
+
 
     def get_ip_address(self, host_check):
         host_check = host_check.strip()
@@ -116,7 +132,7 @@ class App(ctk.CTk):
         loss_percentages = []
         status_bar_progress = float(0)
         self.progressbar.set(status_bar_progress)
-        self.button.configure(text="در حال محاسبه")
+        self.StatusLabel.configure(text="در حال محاسبه")
         self.displayBox.configure(state="normal")
         app.update()
 
@@ -139,9 +155,22 @@ class App(ctk.CTk):
         self.uploadedLabel.configure(text=f"{round(st.upload() / 1000 / 1000, 1)} Mbit/s")
 
         self.displayBox.configure(state="disable")
-        self.button.configure(text="در حال محاسبه")
         status_bar_progress += 1 / (len(ip_addresses) + 1)
         self.progressbar.set(status_bar_progress)
+
+        result = str()
+        status = sum(loss_percentages)/len(loss_percentages)
+        if status <= 1:
+            result = "ارتباط شما با سرور پایدار است"
+            self.progressbar.configure(progress_color=("#00e68a", "#00b36b"))
+        elif status <= 10:
+            result = "ارتباط شما با سرور ضعیف است"
+            self.progressbar.configure(progress_color=("#e6e600", "#b3b300"))
+        else:
+            result = "ارتباط شما با سرور قطع است"
+            self.progressbar.configure(progress_color=("#cc0000", "#990000"))
+
+        self.StatusLabel.configure(text=result)
         app.update()
 
         return loss_percentages

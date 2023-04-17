@@ -9,13 +9,7 @@ PingPong is a Python script that pings a specified website to test its response 
 
 ## Installation:
 1. Clone this repository
-```
-git clone https://github.com/drunkleen/PingPong-pingtest.git
-```
-2. Install the required modules using pip:
-```
-pip install -r requirements.txt
-```
+2. Install the required modules using pip: `pip install speedtest-cli` and `pip install secure-smtplib`
 3. Configure the script by modifying the constants at the beginning of main.py
 4. Run the script using `python main.py`
 
