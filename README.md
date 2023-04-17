@@ -10,8 +10,9 @@ PingPong is a Python script that pings a specified website to test its response 
 ## Installation:
 1. Clone this repository
 2. Install the required modules using pip: `pip install speedtest-cli` and `pip install secure-smtplib`
-3. Configure the script by modifying the constants at the beginning of main.py
-4. Run the script using `python main.py`
+3. Install `B Yekan` Font in your OS.
+4. Configure the script by modifying the constants at the beginning of main.py
+5. Run the script using `python main.py`
 
 ## Usage:
 - The script will automatically run every `ping_interval` seconds (default is 300 seconds, or 5 minutes).
