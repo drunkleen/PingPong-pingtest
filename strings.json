@@ -1,4 +1,5 @@
 {
+  "lang": "fa",
   "global": {
     "en": "Global",
     "fa": "جهانی"
@@ -30,5 +31,21 @@
   "upload_speed": {
     "en": "Upload",
     "fa": "آپلود"
+  },
+  "calculating": {
+    "en": "Calculating",
+    "fa": "در حال محاسبه"
+  },
+  "connectionOK": {
+    "en": "Your connection is stable",
+    "fa": "ارتباط شما با سرور پایدار است"
+  },
+  "connectionLow": {
+    "en": "Your connection is weak",
+    "fa": "ارتباط شما با سرور ضعیف است"
+  },
+  "connectionDC": {
+    "en": "Your connection to the server is disconnected",
+    "fa": "ارتباط شما با سرور قطع است"
   }
 }

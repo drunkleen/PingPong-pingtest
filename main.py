@@ -22,8 +22,8 @@ FILTERED_LIST = HOSTLIST['filtered'].tolist()
 with open('strings.json', 'r') as f:
     strings = json.load(f)
 
-with open('Settings', 'r') as f:
-    current_lang = json.load(f)["lang"]
+
+current_lang = strings["lang"]
 
 SELECTED_FONT = ("B Yekan", 25)
 
@@ -141,7 +141,7 @@ class App(ctk.CTk):
         loss_percentages = []
         status_bar_progress = float(0)
         self.progressbar.set(status_bar_progress)
-        self.StatusLabel.configure(text="در حال محاسبه")
+        self.StatusLabel.configure(text=strings["calculating"][current_lang])
         self.displayBox.configure(state="normal")
         app.update()
 
@@ -170,13 +170,13 @@ class App(ctk.CTk):
         result = str()
         status = sum(loss_percentages)/len(loss_percentages)
         if status <= 1:
-            result = "ارتباط شما با سرور پایدار است"
+            result = strings["connectionOK"][current_lang]
             self.progressbar.configure(progress_color=("#00e68a", "#00b36b"))
         elif status <= 10:
-            result = "ارتباط شما با سرور ضعیف است"
+            result = strings["connectionLow"][current_lang]
             self.progressbar.configure(progress_color=("#e6e600", "#b3b300"))
         else:
-            result = "ارتباط شما با سرور قطع است"
+            result = strings["connectionDC"][current_lang]
             self.progressbar.configure(progress_color=("#cc0000", "#990000"))
 
         self.StatusLabel.configure(text=result)

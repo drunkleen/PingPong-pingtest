@@ -2,6 +2,10 @@
 
 PingPong is a Python script that pings a specified website to test its response time, and sends an email notification if the website is down or if the response time is too slow.
 
+
+![Image description](/img/img-en.png)
+![Image description](/img/img-fa.png)
+
 ## Requirements:
 - Python 3.x
 - speedtest-cli module
